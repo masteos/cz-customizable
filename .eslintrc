@@ -9,9 +9,13 @@
     "jest": true,
     "module": true
   },
-  "plugins": ["prettier"],
   "rules": {
     "arrow-body-style": ["error", "always"],
+    "curly": "error",
+    "implicit-arrow-linebreak": ["error", "below"],
+    "arrow-spacing": "error",
+    "arrow-parens": ["error", "always"],
+    "brace-style": ["error", "1tbs", { "allowSingleLine": false }],
     "max-len": ["error", {
       "code": 120,
       "ignoreStrings": true,

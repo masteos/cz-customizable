@@ -8,17 +8,19 @@ describe('cz-customizable', () => {
   });
 
   const mockedCz = {
-    Separator: jest.fn(),
+    Separator: jest.fn()
   };
 
-  const getQuestion = (number) => questions.getQuestions(config, mockedCz)[number - 1];
+  const getQuestion = (number) => {
+    return questions.getQuestions(config, mockedCz)[number - 1];
+  };
 
   it('should array of questions be returned', () => {
     config = {
       types: [{ value: 'feat', name: 'feat: my feat' }],
       scopes: [{ name: 'myScope' }],
       scopeOverrides: {
-        fix: [{ name: 'fixOverride' }],
+        fix: [{ name: 'fixOverride' }]
       },
       allowCustomScopes: true,
       allowBreakingChanges: ['feat'],
@@ -26,7 +28,7 @@ describe('cz-customizable', () => {
       isTicketNumberRequired: true,
       ticketNumberPrefix: 'TICKET-',
       ticketNumberRegExp: '\\d{1,5}',
-      subjectLimit: 40,
+      subjectLimit: 40
     };
 
     // question 1 - TYPE
@@ -34,21 +36,21 @@ describe('cz-customizable', () => {
     expect(getQuestion(1).type).toEqual('list');
     expect(getQuestion(1).choices[0]).toEqual({
       value: 'feat',
-      name: 'feat: my feat',
+      name: 'feat: my feat'
     });
 
     // question 2 - SCOPE
     expect(getQuestion(2).name).toEqual('scope');
     expect(getQuestion(2).choices({})[0]).toEqual({ name: 'myScope' });
     expect(getQuestion(2).choices({ type: 'fix' })[0]).toEqual({
-      name: 'fixOverride',
+      name: 'fixOverride'
     }); // should override scope
     expect(getQuestion(2).when({ type: 'fix' })).toEqual(true);
     expect(getQuestion(2).when({ type: 'WIP' })).toEqual(false);
     expect(getQuestion(2).when({ type: 'wip' })).toEqual(false);
 
     // question 3 - SCOPE CUSTOM
-    expect(getQuestion(3).name).toEqual('scope');
+    expect(getQuestion(3).name).toEqual('customScope');
     expect(getQuestion(3).when({ scope: 'custom' })).toEqual(true);
     expect(getQuestion(3).when({ scope: false })).toEqual(false);
     expect(getQuestion(3).when({ scope: 'scope' })).toEqual(false);
@@ -93,20 +95,20 @@ describe('cz-customizable', () => {
       confirmCommit: 'yes',
       type: 'feat',
       scope: 'myScope',
-      subject: 'create a new cool feature',
+      subject: 'create a new cool feature'
     };
     expect(getQuestion(9).message(answers)).toMatch('Are you sure you want to proceed with the commit above?');
   });
 
   it('default length limit of subject should be 100', () => {
     config = {
-      types: [{ value: 'feat', name: 'feat: my feat' }],
+      types: [{ value: 'feat', name: 'feat: my feat' }]
     };
     expect(getQuestion(5).validate('good subject')).toEqual(true);
     expect(
       getQuestion(5).validate(
-        'bad subject that exceed limit bad subject that exceed limitbad subject that exceed limit test test test',
-      ),
+        'bad subject that exceed limit bad subject that exceed limitbad subject that exceed limit test test test'
+      )
     ).toEqual('Exceed limit: 100');
   });
 
@@ -117,7 +119,7 @@ describe('cz-customizable', () => {
 
   it('subject should be capitilized when config property "upperCaseSubject" is set to true', () => {
     config = {
-      upperCaseSubject: true,
+      upperCaseSubject: true
     };
 
     expect(getQuestion(5).filter('some subject')).toEqual('Some subject');
@@ -128,12 +130,12 @@ describe('cz-customizable', () => {
       config = {
         types: [{ value: 'feat', name: 'feat: my feat' }],
         scopes: [{ name: 'myScope' }],
-        allowBreakingChanges: ['fix'],
+        allowBreakingChanges: ['fix']
       };
       expect(getQuestion(7).name).toEqual('breaking');
 
       const answers = {
-        type: 'feat',
+        type: 'feat'
       };
 
       expect(getQuestion(7).when(answers)).toEqual(false); // not allowed
@@ -143,12 +145,12 @@ describe('cz-customizable', () => {
       config = {
         types: [{ value: 'feat', name: 'feat: my feat' }],
         scopes: [{ name: 'myScope' }],
-        allowBreakingChanges: ['fix', 'feat'],
+        allowBreakingChanges: ['fix', 'feat']
       };
       expect(getQuestion(7).name).toEqual('breaking');
 
       const answers = {
-        type: 'feat',
+        type: 'feat'
       };
 
       expect(getQuestion(7).when(answers)).toEqual(true); // allowed
@@ -160,15 +162,15 @@ describe('cz-customizable', () => {
       config = {
         types: [{ value: 'feat', name: 'feat: my feat' }],
         scopeOverrides: {
-          feat: [{ name: 'myScope' }],
-        },
+          feat: [{ name: 'myScope' }]
+        }
       };
 
       // question 2 with
       expect(getQuestion(2).name).toEqual('scope');
       expect(getQuestion(2).choices({})[0]).toBeUndefined();
       expect(getQuestion(2).choices({ type: 'feat' })[0]).toEqual({
-        name: 'myScope',
+        name: 'myScope'
       }); // should override scope
       expect(getQuestion(2).when({ type: 'feat' })).toEqual(true);
 
@@ -182,7 +184,7 @@ describe('cz-customizable', () => {
     it('should use scope override', () => {
       config = {
         types: [{ value: 'feat', name: 'feat: my feat' }],
-        allowTicketNumber: false,
+        allowTicketNumber: false
       };
 
       expect(getQuestion(4).name).toEqual('ticketNumber');
@@ -194,7 +196,7 @@ describe('cz-customizable', () => {
     it('when config askForBreakingChangeFirst is true', () => {
       config = {
         types: [{ value: 'feat', name: 'feat: my feat' }],
-        askForBreakingChangeFirst: true,
+        askForBreakingChangeFirst: true
       };
 
       expect(getQuestion(1).name).toEqual('breaking');
@@ -206,7 +208,7 @@ describe('cz-customizable', () => {
     it('disable TicketNumber question', () => {
       config = {
         types: [{ value: 'feat', name: 'feat: my feat' }],
-        allowTicketNumber: false,
+        allowTicketNumber: false
       };
 
       expect(getQuestion(4).name).toEqual('ticketNumber');
@@ -218,8 +220,8 @@ describe('cz-customizable', () => {
         types: [{ value: 'feat', name: 'feat: my feat' }],
         allowTicketNumber: true,
         messages: {
-          ticketNumber: 'ticket number',
-        },
+          ticketNumber: 'ticket number'
+        }
       };
 
       expect(getQuestion(4).name).toEqual('ticketNumber');
@@ -229,34 +231,34 @@ describe('cz-customizable', () => {
     describe('validation', () => {
       it('invalid because empty and required', () => {
         config = {
-          isTicketNumberRequired: true,
+          isTicketNumberRequired: true
         };
         expect(getQuestion(4).validate('')).toEqual(false);
       });
       it('empty but valid because optional', () => {
         config = {
-          isTicketNumberRequired: false,
+          isTicketNumberRequired: false
         };
         expect(getQuestion(4).validate('')).toEqual(true);
       });
       it('valid because there is no regexp defined', () => {
         config = {
           isTicketNumberRequired: true,
-          ticketNumberRegExp: undefined,
+          ticketNumberRegExp: undefined
         };
         expect(getQuestion(4).validate('21234')).toEqual(true);
       });
-      it("invalid because regexp don't match", () => {
+      it('invalid because regexp don\'t match', () => {
         config = {
           isTicketNumberRequired: true,
-          ticketNumberRegExp: '\\d{1,5}',
+          ticketNumberRegExp: '\\d{1,5}'
         };
         expect(getQuestion(4).validate('sddsa')).toEqual(false);
       });
       it('valid because regexp match', () => {
         config = {
           isTicketNumberRequired: true,
-          ticketNumberRegExp: '\\d{1,5}',
+          ticketNumberRegExp: '\\d{1,5}'
         };
         expect(getQuestion(4).validate('12345')).toEqual(true);
       });

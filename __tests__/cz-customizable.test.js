@@ -16,26 +16,26 @@ beforeEach(() => {
       {
         value: 'style',
         name:
-          'style:    Changes that do not affect the meaning of the code\n' +
-          '            (white-space, formatting, missing semi-colons, etc)',
+          'style:    Changes that do not affect the meaning of the code\n'
+          + '            (white-space, formatting, missing semi-colons, etc)'
       },
       {
         value: 'refactor',
-        name: 'refactor: A code change that neither fixes a bug nor adds a feature',
+        name: 'refactor: A code change that neither fixes a bug nor adds a feature'
       },
       {
         value: 'perf',
-        name: 'perf:     A code change that improves performance',
+        name: 'perf:     A code change that improves performance'
       },
       { value: 'test', name: 'test:     Adding missing tests' },
       {
         value: 'chore',
         name:
-          'chore:    Changes to the build process or auxiliary tools\n' +
-          '            and libraries such as documentation generation',
+          'chore:    Changes to the build process or auxiliary tools\n'
+          + '            and libraries such as documentation generation'
       },
       { value: 'revert', name: 'revert:   Revert to a commit' },
-      { value: 'WIP', name: 'WIP:      Work in progress' },
+      { value: 'WIP', name: 'WIP:      Work in progress' }
     ],
     scopes: [{ name: 'accounts' }, { name: 'admin' }, { name: 'exampleScope' }, { name: 'changeMe' }],
     allowTicketNumber: false,
@@ -43,19 +43,19 @@ beforeEach(() => {
     ticketNumberPrefix: 'TICKET-',
     ticketNumberRegExp: '\\d{1,5}',
     messages: {
-      type: "Select the type of change that you're committing:",
+      type: 'Select the type of change that you\'re committing:',
       scope: '\nDenote the SCOPE of this change (optional):',
       customScope: 'Denote the SCOPE of this change:',
       subject: 'Write a SHORT, IMPERATIVE tense description of the change:\n',
       body: 'Provide a LONGER description of the change (optional). Use "|" to break new line:\n',
       breaking: 'List any BREAKING CHANGES (optional):\n',
       footer: 'List any ISSUES CLOSED by this change (optional). E.g.: #31, #34:\n',
-      confirmCommit: 'Are you sure you want to proceed with the commit above?',
+      confirmCommit: 'Are you sure you want to proceed with the commit above?'
     },
     allowCustomScopes: true,
     allowBreakingChanges: ['feat', 'fix'],
     skipQuestions: ['body'],
-    subjectLimit: 100,
+    subjectLimit: 100
   };
   readConfigFile.mockReturnValue(defaultConfig);
 });
@@ -67,9 +67,9 @@ describe('cz-customizable', () => {
         return {
           then(cb) {
             cb(answers);
-          },
+          }
         };
-      },
+      }
     };
   }
 
@@ -77,7 +77,7 @@ describe('cz-customizable', () => {
     const answers = {
       confirmCommit: 'yes',
       type: 'feat',
-      subject: 'do it all',
+      subject: 'do it all'
     };
 
     const mockCz = getMockedCz(answers);
@@ -92,7 +92,7 @@ describe('cz-customizable', () => {
     const answers = {
       confirmCommit: 'yes',
       type: 'feat',
-      subject: 'with backticks `here`',
+      subject: 'with backticks `here`'
     };
 
     const mockCz = getMockedCz(answers);
@@ -118,14 +118,14 @@ describe('cz-customizable', () => {
       subject: 'create a new cool feature',
       body: '-line1|-line2',
       breaking: 'breaking',
-      footer: 'my footer',
+      footer: 'my footer'
     };
 
     const mockCz = getMockedCz(answers);
     czModule.prompter(mockCz, commit);
 
     expect(commit).toHaveBeenCalledWith(
-      'feat(myScope): create a new cool feature\n\n-line1\n-line2\n\nBREAKING CHANGE:\nbreaking\n\nISSUES CLOSED: my footer',
+      'feat(myScope): create a new cool feature\n\n-line1\n-line2\n\nBREAKING CHANGE:\nbreaking\n\nISSUES CLOSED: my footer'
     );
   });
 
@@ -134,7 +134,7 @@ describe('cz-customizable', () => {
       confirmCommit: 'yes',
       type: 'feat',
       scope: 'myScope',
-      subject: 'create a new cool feature',
+      subject: 'create a new cool feature'
     };
 
     const mockCz = getMockedCz(answers);
@@ -146,7 +146,7 @@ describe('cz-customizable', () => {
     const answers = {
       confirmCommit: 'yes',
       type: 'WIP',
-      subject: 'this is my work-in-progress',
+      subject: 'this is my work-in-progress'
     };
 
     const mockCz = getMockedCz(answers);
@@ -160,7 +160,7 @@ describe('cz-customizable', () => {
     const answers = {
       confirmCommit: 'edit',
       type: 'feat',
-      subject: 'create a new cool feature',
+      subject: 'create a new cool feature'
     };
 
     const mockCz = getMockedCz(answers);
@@ -178,7 +178,7 @@ describe('cz-customizable', () => {
     const answers = {
       confirmCommit: 'edit',
       type: 'feat',
-      subject: 'create a new cool feature',
+      subject: 'create a new cool feature'
     };
 
     const mockCz = getMockedCz(answers);
@@ -191,12 +191,10 @@ describe('cz-customizable', () => {
   });
 
   it('should truncate subject if number of characters is higher than 100', () => {
-    const chars100 =
-      '0123456789-0123456789-0123456789-0123456789-0123456789-0123456789-0123456789-0123456789-0123456789-0123456789';
+    const chars100 = '0123456789-0123456789-0123456789-0123456789-0123456789-0123456789-0123456789-0123456789-0123456789-0123456789';
 
     // this string will be prepend: "ISSUES CLOSED: " = 15 chars
-    const footerChars100 =
-      '0123456789-0123456789-0123456789-0123456789-0123456789-0123456789-0123456789-0123456789-012345';
+    const footerChars100 = '0123456789-0123456789-0123456789-0123456789-0123456789-0123456789-0123456789-0123456789-012345';
 
     const answers = {
       confirmCommit: 'yes',
@@ -204,7 +202,7 @@ describe('cz-customizable', () => {
       scope: 'myScope',
       subject: chars100,
       body: `${chars100} body-second-line`,
-      footer: `${footerChars100} footer-second-line`,
+      footer: `${footerChars100} footer-second-line`
     };
 
     const mockCz = getMockedCz(answers);
@@ -230,25 +228,25 @@ describe('cz-customizable', () => {
       scope: 'myScope',
       subject: 'create a new cool feature',
       breaking: 'breaking',
-      footer: 'my footer',
+      footer: 'my footer'
     };
 
     readConfigFile.mockReturnValue({
       types: [{ value: 'feat', name: 'feat: my feat' }],
       scopes: [{ name: 'myScope' }],
       scopeOverrides: {
-        fix: [{ name: 'fixOverride' }],
+        fix: [{ name: 'fixOverride' }]
       },
       allowCustomScopes: true,
       allowBreakingChanges: ['feat'],
-      breakingPrefix: 'WARNING:',
+      breakingPrefix: 'WARNING:'
     });
 
     const mockCz = getMockedCz(answers);
     czModule.prompter(mockCz, commit);
 
     expect(commit).toHaveBeenCalledWith(
-      'feat(myScope): create a new cool feature\n\nWARNING:\nbreaking\n\nISSUES CLOSED: my footer',
+      'feat(myScope): create a new cool feature\n\nWARNING:\nbreaking\n\nISSUES CLOSED: my footer'
     );
   });
 
@@ -259,25 +257,25 @@ describe('cz-customizable', () => {
       scope: 'myScope',
       subject: 'create a new cool feature',
       breaking: 'breaking',
-      footer: 'my footer',
+      footer: 'my footer'
     };
 
     readConfigFile.mockReturnValue({
       types: [{ value: 'feat', name: 'feat: my feat' }],
       scopes: [{ name: 'myScope' }],
       scopeOverrides: {
-        fix: [{ name: 'fixOverride' }],
+        fix: [{ name: 'fixOverride' }]
       },
       allowCustomScopes: true,
       allowBreakingChanges: ['feat'],
-      footerPrefix: 'FIXES:',
+      footerPrefix: 'FIXES:'
     });
 
     const mockCz = getMockedCz(answers);
     czModule.prompter(mockCz, commit);
 
     expect(commit).toHaveBeenCalledWith(
-      'feat(myScope): create a new cool feature\n\nBREAKING CHANGE:\nbreaking\n\nFIXES: my footer',
+      'feat(myScope): create a new cool feature\n\nBREAKING CHANGE:\nbreaking\n\nFIXES: my footer'
     );
   });
 
@@ -288,25 +286,25 @@ describe('cz-customizable', () => {
       scope: 'myScope',
       subject: 'create a new cool feature',
       breaking: 'breaking',
-      footer: 'my footer',
+      footer: 'my footer'
     };
 
     readConfigFile.mockReturnValue({
       types: [{ value: 'feat', name: 'feat: my feat' }],
       scopes: [{ name: 'myScope' }],
       scopeOverrides: {
-        fix: [{ name: 'fixOverride' }],
+        fix: [{ name: 'fixOverride' }]
       },
       allowCustomScopes: true,
       allowBreakingChanges: ['feat'],
-      footerPrefix: '',
+      footerPrefix: ''
     });
 
     const mockCz = getMockedCz(answers);
     czModule.prompter(mockCz, commit);
 
     expect(commit).toHaveBeenCalledWith(
-      'feat(myScope): create a new cool feature\n\nBREAKING CHANGE:\nbreaking\n\nmy footer',
+      'feat(myScope): create a new cool feature\n\nBREAKING CHANGE:\nbreaking\n\nmy footer'
     );
   });
 
@@ -316,7 +314,7 @@ describe('cz-customizable', () => {
       type: 'feat',
       scope: 'myScope',
       subject: 'create a new cool feature',
-      ticketNumber: 'TICKET-1234',
+      ticketNumber: 'TICKET-1234'
     };
 
     const mockCz = getMockedCz(answers);
@@ -329,12 +327,12 @@ describe('cz-customizable', () => {
       types: [{ value: 'feat', name: 'feat: my feat' }],
       scopes: [{ name: 'myScope' }],
       scopeOverrides: {
-        fix: [{ name: 'fixOverride' }],
+        fix: [{ name: 'fixOverride' }]
       },
       allowCustomScopes: true,
       allowBreakingChanges: ['feat'],
       breakingPrefix: 'WARNING:',
-      ticketNumberPrefix: 'TICKET-',
+      ticketNumberPrefix: 'TICKET-'
     });
 
     const answers = {
@@ -342,7 +340,7 @@ describe('cz-customizable', () => {
       type: 'feat',
       scope: 'myScope',
       subject: 'create a new cool feature',
-      ticketNumber: '1234',
+      ticketNumber: '1234'
     };
 
     const mockCz = getMockedCz(answers);
@@ -357,17 +355,17 @@ describe('cz-customizable', () => {
       types: [{ value: 'feat', name: 'feat: my feat' }],
       scopes: [{ name: 'myScope' }],
       scopeOverrides: {
-        fix: [{ name: 'fixOverride' }],
+        fix: [{ name: 'fixOverride' }]
       },
       allowCustomScopes: true,
       allowBreakingChanges: ['feat'],
-      usePreparedCommit: true,
+      usePreparedCommit: true
     });
 
     const answers = {
       confirmCommit: 'yes',
       type: 'feat',
-      subject: 'create a new cool feature',
+      subject: 'create a new cool feature'
     };
 
     const mockCz = getMockedCz(answers);

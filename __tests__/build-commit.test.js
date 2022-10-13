@@ -4,7 +4,7 @@ describe('buildCommit()', () => {
   const answers = {
     type: 'feat',
     scope: 'app',
-    subject: 'this is a new feature',
+    subject: 'this is a new feature'
   };
 
   it('subject with default subject separator', () => {
@@ -14,14 +14,14 @@ describe('buildCommit()', () => {
 
   it('subject with custom subject separator option', () => {
     const options = {
-      subjectSeparator: ' - ',
+      subjectSeparator: ' - '
     };
     expect(buildCommit(answers, options)).toEqual('feat(app) - this is a new feature');
   });
 
   it('subject 1 empty character separator', () => {
     const options = {
-      subjectSeparator: ' ',
+      subjectSeparator: ' '
     };
     expect(buildCommit(answers, options)).toEqual('feat(app) this is a new feature');
   });
@@ -30,7 +30,7 @@ describe('buildCommit()', () => {
     it('subject without scope', () => {
       const answersNoScope = {
         type: 'feat',
-        subject: 'this is a new feature',
+        subject: 'this is a new feature'
       };
       const options = {};
       expect(buildCommit(answersNoScope, options)).toEqual('feat: this is a new feature');
@@ -39,10 +39,10 @@ describe('buildCommit()', () => {
     it('subject without scope', () => {
       const answersNoScope = {
         type: 'feat',
-        subject: 'this is a new feature',
+        subject: 'this is a new feature'
       };
       const options = {
-        subjectSeparator: ' - ',
+        subjectSeparator: ' - '
       };
       expect(buildCommit(answersNoScope, options)).toEqual('feat - this is a new feature');
     });
@@ -52,12 +52,12 @@ describe('buildCommit()', () => {
     it('subject with both', () => {
       const answersNoScope = {
         type: 'feat',
-        subject: 'this is a new feature',
+        subject: 'this is a new feature'
       };
       const options = {
         typePrefix: '[',
         typeSuffix: ']',
-        subjectSeparator: ' ',
+        subjectSeparator: ' '
       };
       expect(buildCommit(answersNoScope, options)).toEqual('[feat] this is a new feature');
     });
@@ -77,7 +77,7 @@ line 2`;
         type: 'feat',
         subject: 'this is a new feature',
         body: 'body with new line now|body line2',
-        footer: 'footer with new line|line 2',
+        footer: 'footer with new line|line 2'
       };
       const options = {};
 
@@ -89,10 +89,10 @@ line 2`;
         type: 'feat',
         subject: 'this is a new feature',
         body: 'body with new line now@@@body line2',
-        footer: 'footer with new line@@@line 2',
+        footer: 'footer with new line@@@line 2'
       };
       const options = {
-        breaklineChar: '@@@',
+        breaklineChar: '@@@'
       };
 
       expect(buildCommit(answersNoScope, options)).toEqual(expecteMessage);
@@ -102,7 +102,7 @@ line 2`;
   it('should escape harmful characters', () => {
     const altAnswers = { ...answers, subject: 'th"is i\'s a n`ew $ f<ea>ture &' };
 
-    // eslint-disable-next-line prettier/prettier, no-useless-escape
+    // eslint-disable-next-line no-useless-escape
     expect(buildCommit(altAnswers, {})).toEqual('feat(app): th\\\"is i\'s a n\\`ew \\\\$ f\\<ea\\>ture \\&');
   });
 });
