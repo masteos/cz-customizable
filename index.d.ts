@@ -16,6 +16,7 @@ declare module "cz-customizable" {
       breaking?: string,
       footer?: string,
       confirmCommit?: string,
+      ticketNumberPattern?: string,
     };
     allowCustomScopes?: boolean;
     allowBreakingChanges?: string[];
@@ -25,5 +26,6 @@ declare module "cz-customizable" {
     breakingPrefix?: string;
     footerPrefix?: string;
     subjectLimit?: number;
+    skipEmptyScopes?: boolean;
   }
 }

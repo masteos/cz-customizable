@@ -28,3 +28,7 @@ node_modules
 .DS_Store
 coverage
 !.cz-config.js
+
+# IDEs
+.vscode
+.idea

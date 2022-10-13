@@ -12,7 +12,10 @@ const readConfigFile = require('./lib/read-config-file');
 
 module.exports = {
   prompter(cz, commit) {
-    const config = readConfigFile();
+    const config = {
+      ...readConfigFile(),
+      ...readConfigFile('.cz-config.local.js')
+    };
     config.subjectLimit = config.subjectLimit || 100;
     log.info('All lines except first will be wrapped after 100 characters.');
 
@@ -28,7 +31,7 @@ module.exports = {
               editor(info.path, (code) => {
                 if (code === 0) {
                   const commitStr = fs.readFileSync(info.path, {
-                    encoding: 'utf8',
+                    encoding: 'utf8'
                   });
                   commit(commitStr);
                 } else {
@@ -44,5 +47,5 @@ module.exports = {
         log.info('Commit has been canceled.');
       }
     });
-  },
+  }
 };

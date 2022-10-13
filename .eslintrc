@@ -1,5 +1,5 @@
 {
-  "extends": ["airbnb-base", "plugin:prettier/recommended"],
+  "extends": ["airbnb-base"],
   "env": {
     "node": true,
     "jasmine": true
@@ -11,6 +11,13 @@
   },
   "plugins": ["prettier"],
   "rules": {
-
+    "arrow-body-style": ["error", "always"],
+    "max-len": ["error", {
+      "code": 120,
+      "ignoreStrings": true,
+      "ignoreComments": true
+    }],
+    "quotes": ["error", "single"],
+    "comma-dangle": ["error", "never"]
   }
 }
